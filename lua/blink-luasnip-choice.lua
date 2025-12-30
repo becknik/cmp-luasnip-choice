@@ -19,9 +19,11 @@ function source:enabled()
 	return require("luasnip").choice_active()
 end
 
-function source:get_completions(_, callback)
+function source:get_completions(ctx, callback)
 	--- @type lsp.CompletionItem[]
 	local items = {}
+
+	local keyword = ctx:get_keyword()
 
 	local choice_docstrings = require("luasnip").get_current_choices()
 	print(choice_docstrings)
@@ -32,6 +34,7 @@ function source:get_completions(_, callback)
 			label = choice_docstring,
 			kind = require("blink.cmp.types").CompletionItemKind.Snippet,
 			index = i,
+			filterText = keyword,
 			textEdit = {
 				newText = "",
 				range = {
@@ -45,7 +48,7 @@ function source:get_completions(_, callback)
 		table.insert(items, item)
 	end
 
-	callback({ items = items, is_incomplete_backward = false, is_incomplete_forward = true })
+	callback({ items = items, is_incomplete_backward = false, is_incomplete_forward = false })
 
 	return function()
 		-- nothing to cancel
