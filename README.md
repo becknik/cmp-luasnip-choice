@@ -9,7 +9,7 @@
 ```lua
 require("lazy").setup({
 	{
-		"becknik/blink-luasnip-choice",
+		"becknik/blink-cmp-luasnip-choice",
 		dependencies = {
 			{ "Saghen/blink.cmp" },
 		},
